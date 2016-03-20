@@ -1,4 +1,4 @@
-const SIZE = 20;
+var SIZE = 20;
 
 var dungeon = new Field();
 var player = new Creature(0, 0, 100);
@@ -9,32 +9,37 @@ var items = [];
 var running = true;
 var monsterFighting = 0;
 
-dungeon.generateField(SIZE);
+function init(){
+    dungeon.generateField(SIZE);
 
-var firstPart = ["Strong", "Fast", "Weak", "Slow", "Heavy"];
-var secondPart = ["Pistol", "Cannon", "Laser", "Knife", "Grenade"];
+    var firstPart = ["Strong", "Fast", "Weak", "Slow", "Heavy"];
+    var secondPart = ["Pistol", "Cannon", "Laser", "Knife", "Grenade"];
 
-for (var x = 0; x < SIZE; x++) {
-    for(var y = 0; y < SIZE; y++){
-        var fieldRandom = Math.random() * 100;
+    for (var x = 0; x < SIZE; x++) {
+        for(var y = 0; y < SIZE; y++){
+            var fieldRandom = Math.random() * 100;
 
-       if(dungeon.get(x,y) == fieldType.empty){
-            if(fieldRandom < 5){
-                monsters.push(new Creature(x, y, Math.floor(Math.random()*80)));
-            }else if(fieldRandom < 8) {
-                var name = firstPart[Math.floor(Math.random() * 5)] + " " + secondPart[Math.floor(Math.random() * 5)];
-                items.push(new Item(name, 100, Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), x, y));
+            if(dungeon.get(x,y) == fieldType.empty){
+                if(fieldRandom < 5){
+                    monsters.push(new Creature(x, y, Math.floor(Math.random()*80)));
+                }else if(fieldRandom < 8) {
+                    var name = firstPart[Math.floor(Math.random() * 5)] + " " + secondPart[Math.floor(Math.random() * 5)];
+                    items.push(new Item(name, 100, Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), x, y));
+                }
             }
         }
     }
+
+    if(SIZE > 1000)
+        alert("The field will be very large, WebGL will probably crash. This is the last chance to close this tab!");
+
+    startRender(SIZE);
 }
+init();
 
-if(SIZE > 1000)
-    alert("The field will be very large, WebGL will probably crash. This is the last chance to close this tab!")
 
-startRender(SIZE);
 
-function moveMonsters(){
+setInterval(function(){
     if(running){
         for(var c=0; c<monsters.length; c++) {
             if((Math.random() * 100) > 30)
@@ -44,9 +49,7 @@ function moveMonsters(){
     }
 
     checkFight();
-}
-
-setInterval(moveMonsters, 800);
+}, 800);
 
 
 

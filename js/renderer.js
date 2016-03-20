@@ -95,13 +95,8 @@ function startRender(size){
             }
         }
 
-
-
         camera.rotation.x = Math.PI/2 * Math.cos(camera.rotation.z);
         camera.rotation.y = Math.PI/2 * Math.sin(camera.rotation.z);
-
-
-
 
         for(var c=0; c<monsters.length; c++)
             monsterCylinders[c].position.set(monsters[c].x - size/2 +0.5, monsters[c].y - size/2 +0.5, 0.3);

@@ -1,3 +1,5 @@
+const SIZE = 10;
+
 var dungeon = new Field();
 var player = new Creature(0, 0, 100);
 var inventory = new Inventory();
@@ -7,22 +9,28 @@ var items = [];
 var running = true;
 var monsterFighting = 0;
 
-dungeon.generateField(100);
+dungeon.generateField(SIZE);
 
-for (var x = 0; x < 100; x++) {
-    for(var y = 0; y < 100; y++){
+var firstPart = ["Strong", "Fast", "Weak", "Slow", "Heavy"];
+var secondPart = ["Pistol", "Cannon", "Laser", "Knife", "Grenade"];
+
+for (var x = 0; x < SIZE; x++) {
+    for(var y = 0; y < SIZE; y++){
         var fieldRandom = Math.random() * 100;
 
         if(dungeon.get(x,y) == fieldType.empty){
-            if(fieldRandom < 5)
+            if(fieldRandom < 5){
                 monsters.push(new Creature(x, y, Math.floor(Math.random()*80)));
-            else if(fieldRandom < 8)
-                items.push(new Item("Test", 100, 100, 100, x, y));
+            }else if(fieldRandom < 8){
+                var name = firstPart[Math.floor(Math.random()*5)] + " " + secondPart[Math.floor(Math.random()*5)];
+                items.push(new Item(name, 100, Math.floor(Math.random()*100), Math.floor(Math.random()*100), x, y));
+            }
+
         }
     }
 }
 
-startRender(100);
+startRender(SIZE);
 
 function moveMonsters(){
     if(running){

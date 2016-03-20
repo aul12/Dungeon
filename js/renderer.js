@@ -15,7 +15,7 @@ function startRender(size){
 
     renderer.setClearColor( 0x7EC0EE, 1 );
 
-    var geometry = new THREE.BoxGeometry(100, 100, 0);
+    var geometry = new THREE.BoxGeometry(size, size, 0);
     var material = new THREE.MeshLambertMaterial( { color: 0xffffff } );
     var floor = new THREE.Mesh( geometry, material );
     floor.position.z = 0;
@@ -26,6 +26,7 @@ function startRender(size){
     var cubeGeometry= new THREE.BoxGeometry(1, 1, 1);
     var cubeMaterialEmpty = new THREE.MeshLambertMaterial( { color: 0xffffff} );
     var cubeMaterialWall = new THREE.MeshLambertMaterial( { color: 0x2B292E} );
+    var cubeMaterialFinal = new THREE.MeshLambertMaterial( { color: 0x00ff00, opacity: 0.5, transparent: true});
 
     for (var x = 0; x < size; x++) {
         cubes[x] = new Array(size);
@@ -37,6 +38,9 @@ function startRender(size){
                     break;
                 case fieldType.wall:
                     cubes[x][y] = new THREE.Mesh( cubeGeometry, cubeMaterialWall );
+                    break;
+                case fieldType.final:
+                    cubes[x][y] = new THREE.Mesh( cubeGeometry, cubeMaterialFinal );
                     break;
             }
             cubes[x][y].position.set(x - size/2 +0.5, y - size/2 +0.5, 0.5);
@@ -51,7 +55,7 @@ function startRender(size){
 
 
     var geometryMonster = new THREE.CylinderGeometry(0.4, 0.4, 0.6, 16);
-    var materialMonster = new THREE.MeshPhongMaterial( {color: 0x00ff00} );
+    var materialMonster = new THREE.MeshPhongMaterial( {color: 0x00ff00, opacity: 0.9, transparent: true} );
 
     for(var c=0; c<monsters.length; c++){
         monsterCylinders.push(new THREE.Mesh( geometryMonster, materialMonster ));
@@ -78,22 +82,26 @@ function startRender(size){
         camera.rotation.x = 0;
         camera.rotation.y = 0;
 
-        camera.rotation.z = player.rotation*Math.PI/2;
+        camera.rotation.z %= Math.PI*2;
+        if(camera.rotation.z < 0)
+            camera.rotation.z += Math.PI*2;
 
-        switch(player.rotation){
-             case 0:
-                camera.rotation.x = Math.PI/2;
-                break;
-            case 1:
-                camera.rotation.y = Math.PI/2;
-                break;
-            case 2:
-                camera.rotation.x = -Math.PI/2;
-                break;
-            case 3:
-                camera.rotation.y = -Math.PI/2;
-                break;
+        if(Math.abs(camera.rotation.z - (player.rotation*Math.PI/2))<0.5){
+            camera.rotation.z = player.rotation*Math.PI/2;
+        }else{
+            if(playerRotation < 0)
+                camera.rotation.z += 0.5;
+            else {
+                camera.rotation.z -= 0.5;
+            }
         }
+
+
+
+        camera.rotation.x = Math.PI/2 * Math.cos(camera.rotation.z);
+        camera.rotation.y = Math.PI/2 * Math.sin(camera.rotation.z);
+
+
 
 
         for(var c=0; c<monsters.length; c++)

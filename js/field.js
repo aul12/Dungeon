@@ -1,6 +1,7 @@
 var fieldType = {
     empty : 0,
-    wall : 1
+    wall : 1,
+    final: 2
 };
 
 function Field(){
@@ -23,14 +24,15 @@ function Field(){
 
             }
         }
+
+        this.field[size-1][size-1] = fieldType.final;
     };
 
     this.get = function(x,y){
-        try {
+        if(x>=0 && y>=0 && x<this._size && y<this._size)
             return this.field[x][y];
-        } catch (e) {
+        else
             return fieldType.wall;
-        }
 
     }
 }

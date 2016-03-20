@@ -25,5 +25,6 @@ document.onkeypress = function(event){
 
         checkFight();
         checkItem();
+        checkFinal();
     }
 };

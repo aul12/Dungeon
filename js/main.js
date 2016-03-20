@@ -1,4 +1,4 @@
-const SIZE = 10;
+const SIZE = 20;
 
 var dungeon = new Field();
 var player = new Creature(0, 0, 100);
@@ -18,17 +18,19 @@ for (var x = 0; x < SIZE; x++) {
     for(var y = 0; y < SIZE; y++){
         var fieldRandom = Math.random() * 100;
 
-        if(dungeon.get(x,y) == fieldType.empty){
+       if(dungeon.get(x,y) == fieldType.empty){
             if(fieldRandom < 5){
                 monsters.push(new Creature(x, y, Math.floor(Math.random()*80)));
-            }else if(fieldRandom < 8){
-                var name = firstPart[Math.floor(Math.random()*5)] + " " + secondPart[Math.floor(Math.random()*5)];
-                items.push(new Item(name, 100, Math.floor(Math.random()*100), Math.floor(Math.random()*100), x, y));
+            }else if(fieldRandom < 8) {
+                var name = firstPart[Math.floor(Math.random() * 5)] + " " + secondPart[Math.floor(Math.random() * 5)];
+                items.push(new Item(name, 100, Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), x, y));
             }
-
         }
     }
 }
+
+if(SIZE > 1000)
+    alert("The field will be very large, WebGL will probably crash. This is the last chance to close this tab!")
 
 startRender(SIZE);
 
@@ -84,5 +86,11 @@ function checkItem(){
             scene.remove(itemMesh[c]);
             itemMesh.splice(c, 1);
         }
+    }
+}
+
+function  checkFinal(){
+    if(player.x == SIZE-1 && player.y == SIZE-1){
+        alert("You have won!");
     }
 }

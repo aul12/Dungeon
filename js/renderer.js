@@ -49,8 +49,7 @@ function startRender(size){
         }
     }
 
-    camera.position.z = 100;
-    camera.rotation.x = Math.PI;
+    camera.position.z = 30;
 
 
 

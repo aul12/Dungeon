@@ -3,6 +3,8 @@ var monsterCylinders = [];
 var scene = new THREE.Scene();
 
 function startRender(size){
+    var c = document.getElementById("canvasCompass");
+    var ctx = c.getContext("2d");
 
     var camera = new THREE.PerspectiveCamera( 75, (window.innerWidth)/(window.innerHeight), 0.1, 1000 );
 
@@ -75,6 +77,18 @@ function startRender(size){
 
     var render = function () {
         $("#statusLeft").html("Life: " +player.health+"%");
+
+        var alpha = Math.atan2(size-player.x, size-player.y) + camera.rotation.z - Math.PI/2;
+        ctx.strokeStyle = "white";
+        ctx.lineWidth = 2;
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+        ctx.beginPath();
+        ctx.arc(64,64,60,0,2*Math.PI);
+        ctx.moveTo(ctx.canvas.width/2, ctx.canvas.height/2);
+
+        ctx.lineTo(Math.cos(alpha)*60 + 64, Math.sin(alpha)*60 + 64);
+        ctx.stroke();
 
 
         requestAnimationFrame( render );

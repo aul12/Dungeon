@@ -22,6 +22,7 @@ $("#startButton").click(function(){
     player.rotation = 0;
     monsters = [];
     items = [];
+    life = [];
     running = true;
     monsterFighting = 0;
 
@@ -31,15 +32,15 @@ $("#startButton").click(function(){
 
     for (var x = 0; x < SIZE; x++) {
         for(var y = 0; y < SIZE; y++){
-            var fieldRandom = Math.random() * 100;
+            var fieldRandom = Math.random() * 1000;
 
             if(dungeon.get(x,y) == fieldType.empty && !(x<3 && y<3)){
-                if(fieldRandom < 3){
+                if(fieldRandom < 25){
                     monsters.push(new Creature(x, y, Math.floor(Math.random()*75)));
-                }else if(fieldRandom < 6) {
+                }else if(fieldRandom < 35) {
                     var name = firstPart[Math.floor(Math.random() * 5)] + " " + secondPart[Math.floor(Math.random() * 5)];
                     items.push(new Item(name, 100, Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), x, y));
-                }else if(fieldRandom < 7){
+                }else if(fieldRandom < 40){
                     life.push(new Life(Math.floor(Math.random() * 40), x, y));
                 }
             }

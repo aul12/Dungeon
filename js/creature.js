@@ -60,6 +60,27 @@ function Creature(xPos, yPos, healthStart){
             this.rotation += 4;
     };
 
+    this.fieldInFront = function(){
+        var x = this.x;
+        var y = this.y;
+
+        switch(this.rotation){
+            case 0:
+                y++;
+                break;
+            case 1:
+                x--;
+                break;
+            case 2:
+                y--;
+                break;
+            case 3:
+                x++;
+        }
+
+        return dungeon.get(x, y);
+    };
+
     this.turnLeft = function(){
         this.rotation++;
 

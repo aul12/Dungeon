@@ -19,6 +19,8 @@ function Field(){
 
                 var fieldRandom = Math.random() * 100;
 
+                //If the number is higher the ways are more straight,
+                //is the number lower is lower the walls are only small islands
                 if(fieldRandom < 80)
                     this.field[x][y] = fieldType.wall;
                 else
@@ -130,6 +132,58 @@ function Field(){
                         }
                     }
                 }
+            }
+        }
+
+        //Field should be ready, in some cases you still can't get to the exit
+        var tester = new Creature(0,0,0);
+        var minX=0, minY=0;
+        var minDist = SIZE+SIZE;
+
+        //Always following the right wall
+        //If we get to the exit everything is OK, if we get back to the beginning we can't get to the exit
+        while(!(tester.x == SIZE-1 && tester.y == SIZE-1)){
+            tester.turnRight();
+            while(tester.fieldInFront() == fieldType.wall)
+                tester.turnLeft();
+            tester.forward();
+
+            var dx = tester.x - (SIZE-1);
+            var dy = tester.y - (SIZE-1);
+            var dist = Math.sqrt(dx*dx + dy*dy);
+
+            if(dist < minDist){
+                minX = tester.x;
+                minY = tester.y;
+                minDist = dist;
+            }
+
+            //We are at the beginning again
+            if(tester.x==0 && tester.y==0){
+                //Find closest distance to next way in X and Y direction
+                for(var xDist=1; this.get(xDist + minX, minY)==fieldType.wall && xDist < SIZE; xDist++){
+                    if(this.get(xDist + minX, minY-1)!=fieldType.wall || this.get(xDist + minX, minY+1)!=fieldType.wall)
+                        break;
+                }
+                for(var yDist=1; this.get(minX, yDist + minY)==fieldType.wall && yDist < SIZE; yDist++){
+                    if(this.get(minX-1, yDist + minY)!=fieldType.wall || this.get(minX+1, yDist + minY)!=fieldType.wall)
+                        break;
+                }
+
+                console.log("Blocked", minX, minY);
+                console.log(xDist, yDist);
+
+                if(xDist < yDist){
+                    for(;xDist > 0; xDist--){
+                        this.field[minX + xDist][minY] = fieldType.empty;
+                    }
+                }else{
+                    for(;yDist > 0; yDist--){
+                        this.field[minY][minY + yDist] = fieldType.empty;
+                    }
+                }
+
+                break;
             }
         }
 

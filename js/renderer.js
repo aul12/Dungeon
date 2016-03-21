@@ -58,7 +58,7 @@ function startRender(size){
 
 
     var geometryMonster = new THREE.CylinderGeometry(0.4, 0.4, 0.6, 16);
-    var materialMonster = new THREE.MeshPhongMaterial( {color: 0x6B0CE8, opacity: 1.0, transparent: true} );
+    var materialMonster = new THREE.MeshPhongMaterial( {color: 0x6B0CE8} );
 
     for(var c=0; c<monsters.length; c++){
         monsterCylinders.push(new THREE.Mesh( geometryMonster, materialMonster ));

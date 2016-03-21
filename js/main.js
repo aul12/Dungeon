@@ -55,6 +55,7 @@ $("#btnFight").click(function(){
 
     if(player.health <= 0) {
         $("#modalStartTitle").html("You are dead!<br>Restart now?");
+        SIZE = 10;
         $("#modalIntro").modal();
     }
 });
@@ -86,7 +87,7 @@ function checkItem(){
 
 function  checkFinal(){
     if(player.x == SIZE-1 && player.y == SIZE-1){
-        $("#modalStartTitle").html("You have won!");
+        $("#modalStartTitle").html("You have finished Level "+Math.floor((SIZE-5)/5)+"!");
         SIZE += 5;
         $("#pLevel").html("Level: "+Math.floor((SIZE-5)/5));
         $("#modalIntro").modal();

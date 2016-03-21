@@ -123,10 +123,8 @@ function Field(){
                                         break;
                                 }
 
-                                try {
+                                if (xDelete >= 0 && yDelete >= 0 && xDelete < SIZE && yDelete < SIZE)
                                     this.field[xDelete][yDelete] = fieldType.empty;
-                                } catch (e) {
-                                }
                             }
 
                         }
@@ -141,10 +139,19 @@ function Field(){
     };
 
     this.get = function(x,y){
-        if(x>=0 && y>=0 && x<SIZE && y<SIZE)
-            return this.field[x][y];
-        else
+        /*
+         *  There are situations, just after generating a new level where this throws errors,
+         *  because SIZE is already larger but the field is still the old size.
+         *  This probably the best solution...
+         */
+        try {
+            if (x >= 0 && y >= 0 && x < SIZE && y < SIZE)
+                return this.field[x][y];
+            else
+                return fieldType.wall;
+        } catch (e) {
             return fieldType.wall;
+        }
 
     }
 }

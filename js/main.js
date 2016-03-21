@@ -15,9 +15,8 @@ $("#modalIntro").modal();
 $("#startButton").click(function(){
     dungeon = new Field();
     player = new Creature(0, 0, 100);
-    inventory = new Inventory();
     monsters = [];
-
+    items = [];
     running = true;
     monsterFighting = 0;
 
@@ -39,10 +38,7 @@ $("#startButton").click(function(){
             }
         }
     }
-
     startRender(SIZE);
-
-    render();
 });
 
 

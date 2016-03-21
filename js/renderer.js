@@ -19,22 +19,22 @@ function startRender(size){
 
     renderer.setClearColor( 0x007EC0, 1 );
 
-    var geometry = new THREE.BoxGeometry(size, size, 0);
+    var geometry = new THREE.BoxGeometry(SIZE, SIZE, 0);
     var material = new THREE.MeshLambertMaterial( { color: 0xffffff } );
     var floor = new THREE.Mesh( geometry, material );
     floor.position.z = 0;
     scene.add(floor);
 
 
-    var cubes = new Array(size);
+    var cubes = new Array(SIZE);
     var cubeGeometry= new THREE.BoxGeometry(1, 1, 1);
     var cubeMaterialEmpty = new THREE.MeshLambertMaterial( { color: 0xffffff} );
     var cubeMaterialWall = new THREE.MeshLambertMaterial( { color: 0x2B292E} );
     var cubeMaterialFinal = new THREE.MeshLambertMaterial( { color: 0x00ff00, opacity: 0.5, transparent: true});
 
-    for (var x = 0; x < size; x++) {
-        cubes[x] = new Array(size);
-        for(var y = 0; y < size; y++){
+    for (var x = 0; x < SIZE; x++) {
+        cubes[x] = new Array(SIZE);
+        for(var y = 0; y < SIZE; y++){
             switch(dungeon.get(x,y)){
                 case fieldType.empty:
                     cubes[x][y] = new THREE.Mesh( cubeGeometry, cubeMaterialEmpty );
@@ -47,7 +47,7 @@ function startRender(size){
                     cubes[x][y] = new THREE.Mesh( cubeGeometry, cubeMaterialFinal );
                     break;
             }
-            cubes[x][y].position.set(x - size/2 +0.5, y - size/2 +0.5, 0.5);
+            cubes[x][y].position.set(x - SIZE/2 +0.5, y - SIZE/2 +0.5, 0.5);
 
             scene.add(cubes[x][y]);
         }
@@ -63,7 +63,7 @@ function startRender(size){
     for(var c=0; c<monsters.length; c++){
         monsterCylinders.push(new THREE.Mesh( geometryMonster, materialMonster ));
         monsterCylinders[c].rotation.x = Math.PI/2;
-        monsterCylinders[c].position.set(monsters[c].x - size/2 +0.5, monsters[c].y - size/2 +0.5, 0.3);
+        monsterCylinders[c].position.set(monsters[c].x - SIZE/2 +0.5, monsters[c].y - SIZE/2 +0.5, 0.3);
         scene.add( monsterCylinders[c] );
     }
 
@@ -72,7 +72,7 @@ function startRender(size){
 
     for(var c=0; c<items.length; c++){
         itemMesh.push(new THREE.Mesh( itemGeometry, itemMaterial ));
-        itemMesh[c].position.set(items[c].x - size/2 +0.5, items[c].y - size/2 +0.5, 0.4);
+        itemMesh[c].position.set(items[c].x - SIZE/2 +0.5, items[c].y - SIZE/2 +0.5, 0.4);
         scene.add(itemMesh[c]);
     }
 
@@ -80,7 +80,7 @@ function startRender(size){
     var render = function () {
         $("#statusLeft").html("Life: " +player.health+"%");
 
-        var alpha = Math.atan2(size-player.x, size-player.y) + camera.rotation.z - Math.PI/2;
+        var alpha = Math.atan2(SIZE-player.x, SIZE-player.y) + camera.rotation.z - Math.PI/2;
         ctx.strokeStyle = "white";
         ctx.lineWidth = 2;
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -95,7 +95,7 @@ function startRender(size){
 
         requestAnimationFrame( render );
 
-        camera.position.set(player.x - size/2 +0.5, player.y - size/2 +0.5,0.5);
+        camera.position.set(player.x - SIZE/2 +0.5, player.y - SIZE/2 +0.5,0.5);
 
         camera.rotation.x = 0;
         camera.rotation.y = 0;
@@ -118,7 +118,7 @@ function startRender(size){
         camera.rotation.y = Math.PI/2 * Math.sin(camera.rotation.z);
 
         for(var c=0; c<monsters.length; c++)
-            monsterCylinders[c].position.set(monsters[c].x - size/2 +0.5, monsters[c].y - size/2 +0.5, 0.3);
+            monsterCylinders[c].position.set(monsters[c].x - SIZE/2 +0.5, monsters[c].y - SIZE/2 +0.5, 0.3);
 
 
 

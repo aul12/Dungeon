@@ -136,12 +136,12 @@ function Field(){
         }
 
 
-        this.field[size-1][size-1] = fieldType.final;
+        this.field[SIZE-1][SIZE-1] = fieldType.final;
         console.log(new Date(), new Date().getMilliseconds());
     };
 
     this.get = function(x,y){
-        if(x>=0 && y>=0 && x<this._size && y<this._size)
+        if(x>=0 && y>=0 && x<SIZE && y<SIZE)
             return this.field[x][y];
         else
             return fieldType.wall;

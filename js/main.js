@@ -87,6 +87,8 @@ function checkItem(){
 function  checkFinal(){
     if(player.x == SIZE-1 && player.y == SIZE-1){
         $("#modalStartTitle").html("You have won!");
+        SIZE += 5;
+        $("#pLevel").html("Level: "+Math.floor((SIZE-5)/5));
         $("#modalIntro").modal();
     }
 }

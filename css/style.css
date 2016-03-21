@@ -1,3 +1,7 @@
+body{
+    overflow: hidden;
+}
+
 th, td {
     text-align: center;
 }

@@ -1,3 +1,23 @@
 th, td {
     text-align: center;
 }
+
+.status{
+    position: absolute;
+    height: 100px;
+    width: 50%;
+    top: 0;
+    padding: 4px;
+    color: white;
+}
+
+.statusLeft{
+    left: 0;
+    text-align: left;
+
+}
+
+.statusRight{
+    right: 0;
+    text-align: right;
+}

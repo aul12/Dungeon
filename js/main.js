@@ -19,7 +19,7 @@ for (var x = 0; x < SIZE; x++) {
     for(var y = 0; y < SIZE; y++){
         var fieldRandom = Math.random() * 100;
 
-        if(dungeon.get(x,y) == fieldType.empty){
+        if(dungeon.get(x,y) == fieldType.empty && !(x<3 && y<3)){
             if(fieldRandom < 3){
                 monsters.push(new Creature(x, y, Math.floor(Math.random()*80)));
             }else if(fieldRandom < 6) {

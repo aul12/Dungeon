@@ -74,6 +74,9 @@ function startRender(size){
 
 
     var render = function () {
+        $("#statusLeft").html("Life: " +player.health+"%");
+
+
         requestAnimationFrame( render );
 
         camera.position.set(player.x - size/2 +0.5, player.y - size/2 +0.5,0.5);

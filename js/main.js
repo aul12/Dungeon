@@ -45,6 +45,9 @@ $("#startButton").click(function(){
         }
     }
     running = true;
+
+    $("#pLevel").html("Level: "+(Math.floor((SIZE-SIZE_BEGIN)/5)+1));
+
     startRender(SIZE);
 });
 
@@ -108,7 +111,6 @@ function  checkFinal(){
     if(player.x == SIZE-1 && player.y == SIZE-1){
         $("#modalStartTitle").html("You have finished Level "+(Math.floor((SIZE-SIZE_BEGIN)/5)+1)+"!");
         SIZE += 5;
-        $("#pLevel").html("Level: "+(Math.floor((SIZE-SIZE_BEGIN)/5)+1));
         $("#modalIntro").modal();
         running = false;
     }

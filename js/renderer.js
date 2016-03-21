@@ -1,16 +1,19 @@
 var itemMesh = [];
 var monsterCylinders = [];
+var lifeSphere = [];
 var scene;
+
+var camera = new THREE.PerspectiveCamera( 75, (window.innerWidth)/(window.innerHeight), 0.1, 1000 );
+
+var renderer = new THREE.WebGLRenderer({antialias: true});
 
 function startRender(size){
     var c = document.getElementById("canvasCompass");
     var ctx = c.getContext("2d");
 
-
+    scene = null;
     scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera( 75, (window.innerWidth)/(window.innerHeight), 0.1, 1000 );
 
-    var renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.setSize( window.innerWidth, window.innerHeight );
     document.body.appendChild( renderer.domElement );
 
@@ -18,6 +21,8 @@ function startRender(size){
     scene.add( light );
 
     renderer.setClearColor( 0x007EC0, 1 );
+
+    camera.position.z = 30;
 
     var geometry = new THREE.BoxGeometry(SIZE, SIZE, 0);
     var material = new THREE.MeshLambertMaterial( { color: 0xffffff } );
@@ -30,7 +35,7 @@ function startRender(size){
     var cubeGeometry= new THREE.BoxGeometry(1, 1, 1);
     var cubeMaterialEmpty = new THREE.MeshLambertMaterial( { color: 0xffffff} );
     var cubeMaterialWall = new THREE.MeshLambertMaterial( { color: 0x2B292E} );
-    var cubeMaterialFinal = new THREE.MeshLambertMaterial( { color: 0x00ff00, opacity: 0.5, transparent: true});
+    var cubeMaterialFinal = new THREE.MeshBasicMaterial( { color: 0x00ff00, opacity: 0.5, transparent: true});
 
     for (var x = 0; x < SIZE; x++) {
         cubes[x] = new Array(SIZE);
@@ -53,7 +58,7 @@ function startRender(size){
         }
     }
 
-    camera.position.z = 30;
+
 
 
 
@@ -76,6 +81,14 @@ function startRender(size){
         scene.add(itemMesh[c]);
     }
 
+    var geometryLife = new THREE.SphereGeometry(0.2);
+    var materialLife = new THREE.MeshPhongMaterial( {color: 0xff0000} );
+    for(var c=0; c<life.length; c++){
+        lifeSphere.push(new THREE.Mesh( geometryLife, materialLife ));
+        lifeSphere[c].position.set(life[c].x - SIZE/2 +0.5, life[c].y - SIZE/2 +0.5, 0.5);
+        scene.add(lifeSphere[c]);
+    }
+
 
     var render = function () {
         $("#statusLeft").html("Life: " +player.health+"%");
@@ -92,8 +105,8 @@ function startRender(size){
         ctx.lineTo(Math.cos(alpha)*60 + 64, Math.sin(alpha)*60 + 64);
         ctx.stroke();
 
-
-        requestAnimationFrame( render );
+        if(running)
+            requestAnimationFrame( render );
 
         camera.position.set(player.x - SIZE/2 +0.5, player.y - SIZE/2 +0.5,0.5);
 

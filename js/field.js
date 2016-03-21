@@ -9,7 +9,7 @@ function Field(){
     this.field = new Array(0);
 
     this.generateField = function(size){
-        console.log(new Date(), new Date().getMilliseconds());
+        var beginTime = new Date();
 
         this._size = size;
         this.field = new Array(this._size);
@@ -39,7 +39,7 @@ function Field(){
         var change = true;
 
         while(change){
-             change = false;
+            change = false;
 
             for (var x = 0; x < this._size; x++) {
                 for (var y = 0; y < this._size; y++) {
@@ -135,7 +135,7 @@ function Field(){
 
 
         this.field[SIZE-1][SIZE-1] = fieldType.final;
-        console.log(new Date(), new Date().getMilliseconds());
+        console.log(SIZE + " * " + SIZE + " Field generated in:" + (new Date() - beginTime));
     };
 
     this.get = function(x,y){

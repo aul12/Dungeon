@@ -1,9 +1,12 @@
-var SIZE = 10;
+const SIZE_BEGIN = 25;
+var SIZE = SIZE_BEGIN;
 var dungeon = new Field();
 var player = new Creature(0, 0, 100);
 var inventory = new Inventory();
+
 var monsters = [];
 var items = [];
+var life = [];
 
 var running = true;
 var monsterFighting = 0;
@@ -14,7 +17,8 @@ $("#modalIntro").modal();
 
 $("#startButton").click(function(){
     dungeon = new Field();
-    player = new Creature(0, 0, 100);
+    player.x = 0;
+    player.y = 0;
     monsters = [];
     items = [];
     running = true;
@@ -30,14 +34,17 @@ $("#startButton").click(function(){
 
             if(dungeon.get(x,y) == fieldType.empty && !(x<3 && y<3)){
                 if(fieldRandom < 3){
-                    monsters.push(new Creature(x, y, Math.floor(Math.random()*80)));
+                    monsters.push(new Creature(x, y, Math.floor(Math.random()*50)));
                 }else if(fieldRandom < 6) {
                     var name = firstPart[Math.floor(Math.random() * 5)] + " " + secondPart[Math.floor(Math.random() * 5)];
                     items.push(new Item(name, 100, Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), x, y));
+                }else if(fieldRandom < 7){
+                    life.push(new Life(Math.floor(Math.random() * 40), x, y));
                 }
             }
         }
     }
+    running = true;
     startRender(SIZE);
 });
 
@@ -48,14 +55,15 @@ $("#startButton").click(function(){
 $("#btnFight").click(function(){
     running = true;
     $('#modalFight').modal('hide');
-    player.health -= 10;
+    player.health -= Math.round(monsters[monsterFighting].health / 2);
     monsters.splice(monsterFighting, 1);
     scene.remove(monsterCylinders[monsterFighting]);
     monsterCylinders.splice(monsterFighting, 1);
 
     if(player.health <= 0) {
+        running = false;
         $("#modalStartTitle").html("You are dead!<br>Restart now?");
-        SIZE = 10;
+        SIZE = SIZE_BEGIN;
         $("#modalIntro").modal();
     }
 });
@@ -64,7 +72,7 @@ function checkFight(){
     for(var c=0; c<monsters.length; c++) {
 
         if(monsters[c].x == player.x && monsters[c].y == player.y){
-            running = false;
+            //running = false;
             $('#modalFight').modal();
 
             $("#tableFightCompare").html("<tr><th>You</th><th>Monster</th></tr>tr><td>"+player.health+"</td><td>"+monsters[c].health+"</td></tr>");
@@ -83,13 +91,25 @@ function checkItem(){
             itemMesh.splice(c, 1);
         }
     }
+    for(c=0; c<life.length; c++){
+        if(life[c].x == player.x && life[c].y == player.y){
+            player.health += life[c].amount;
+            if(player.health > 100)
+                player.health = 100;
+            life.splice(c, 1);
+            scene.remove(lifeSphere[c]);
+            lifeSphere.splice(c, 1);
+        }
+    }
+
 }
 
 function  checkFinal(){
     if(player.x == SIZE-1 && player.y == SIZE-1){
-        $("#modalStartTitle").html("You have finished Level "+Math.floor((SIZE-5)/5)+"!");
+        $("#modalStartTitle").html("You have finished Level "+(Math.floor((SIZE-SIZE_BEGIN)/5)+1)+"!");
         SIZE += 5;
-        $("#pLevel").html("Level: "+Math.floor((SIZE-5)/5));
+        $("#pLevel").html("Level: "+(Math.floor((SIZE-SIZE_BEGIN)/5)+1));
         $("#modalIntro").modal();
+        running = false;
     }
 }

@@ -1,6 +1,11 @@
 body{
     overflow: hidden;
     background-color: #007EC0;
+    font-family: "monospace",sans-serif;
+}
+
+h1,h2,h3,h4{
+    font-family: "monospace",sans-serif;
 }
 
 th, td {
@@ -11,18 +16,18 @@ th, td {
     position: absolute;
     height: 200px;
     width: 50%;
-    top: 0;
+    top: 8px;
     padding: 4px;
     color: white;
 }
 
 .statusLeft{
-    left: 0;
+    left: 8px;
     text-align: left;
 
 }
 
 .statusRight{
-    right: 0;
+    right: 8px;
     text-align: right;
 }

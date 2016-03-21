@@ -19,6 +19,7 @@ $("#startButton").click(function(){
     dungeon = new Field();
     player.x = 0;
     player.y = 0;
+    player.rotation = 0;
     monsters = [];
     items = [];
     running = true;
@@ -34,7 +35,7 @@ $("#startButton").click(function(){
 
             if(dungeon.get(x,y) == fieldType.empty && !(x<3 && y<3)){
                 if(fieldRandom < 3){
-                    monsters.push(new Creature(x, y, Math.floor(Math.random()*50)));
+                    monsters.push(new Creature(x, y, Math.floor(Math.random()*75)));
                 }else if(fieldRandom < 6) {
                     var name = firstPart[Math.floor(Math.random() * 5)] + " " + secondPart[Math.floor(Math.random() * 5)];
                     items.push(new Item(name, 100, Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), x, y));
@@ -67,6 +68,7 @@ $("#btnFight").click(function(){
         running = false;
         $("#modalStartTitle").html("You are dead!<br>Restart now?");
         SIZE = SIZE_BEGIN;
+        player = new Creature(0, 0, 100);
         $("#modalIntro").modal();
     }
 });

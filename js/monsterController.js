@@ -24,4 +24,4 @@ setInterval(function(){
     }
 
     checkFight();
-}, 800);
+}, 500);

@@ -9,47 +9,28 @@ var items = [];
 var running = true;
 var monsterFighting = 0;
 
-function init(){
-    dungeon.generateField(SIZE);
 
-    var firstPart = ["Strong", "Fast", "Weak", "Slow", "Heavy"];
-    var secondPart = ["Pistol", "Cannon", "Laser", "Knife", "Grenade"];
+dungeon.generateField(SIZE);
 
-    for (var x = 0; x < SIZE; x++) {
-        for(var y = 0; y < SIZE; y++){
-            var fieldRandom = Math.random() * 100;
+var firstPart = ["Strong", "Fast", "Weak", "Slow", "Heavy"];
+var secondPart = ["Pistol", "Cannon", "Laser", "Knife", "Grenade"];
 
-            if(dungeon.get(x,y) == fieldType.empty){
-                if(fieldRandom < 5){
-                    monsters.push(new Creature(x, y, Math.floor(Math.random()*80)));
-                }else if(fieldRandom < 8) {
-                    var name = firstPart[Math.floor(Math.random() * 5)] + " " + secondPart[Math.floor(Math.random() * 5)];
-                    items.push(new Item(name, 100, Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), x, y));
-                }
+for (var x = 0; x < SIZE; x++) {
+    for(var y = 0; y < SIZE; y++){
+        var fieldRandom = Math.random() * 100;
+
+        if(dungeon.get(x,y) == fieldType.empty){
+            if(fieldRandom < 3){
+                monsters.push(new Creature(x, y, Math.floor(Math.random()*80)));
+            }else if(fieldRandom < 6) {
+                var name = firstPart[Math.floor(Math.random() * 5)] + " " + secondPart[Math.floor(Math.random() * 5)];
+                items.push(new Item(name, 100, Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), x, y));
             }
         }
     }
-
-    if(SIZE > 1000)
-        alert("The field will be very large, WebGL will probably crash. This is the last chance to close this tab!");
-
-    startRender(SIZE);
 }
-init();
 
-
-
-setInterval(function(){
-    if(running){
-        for(var c=0; c<monsters.length; c++) {
-            if((Math.random() * 100) > 30)
-                monsters[c].turnLeft();
-            monsters[c].forward();
-        }
-    }
-
-    checkFight();
-}, 800);
+startRender(SIZE);
 
 
 

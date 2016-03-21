@@ -13,7 +13,7 @@ function startRender(size){
     var light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1.8);
     scene.add( light );
 
-    renderer.setClearColor( 0x7EC0EE, 1 );
+    renderer.setClearColor( 0x007EC0, 1 );
 
     var geometry = new THREE.BoxGeometry(size, size, 0);
     var material = new THREE.MeshLambertMaterial( { color: 0xffffff } );
@@ -54,7 +54,7 @@ function startRender(size){
 
 
     var geometryMonster = new THREE.CylinderGeometry(0.4, 0.4, 0.6, 16);
-    var materialMonster = new THREE.MeshPhongMaterial( {color: 0x00ff00, opacity: 0.9, transparent: true} );
+    var materialMonster = new THREE.MeshPhongMaterial( {color: 0x6B0CE8, opacity: 1.0, transparent: true} );
 
     for(var c=0; c<monsters.length; c++){
         monsterCylinders.push(new THREE.Mesh( geometryMonster, materialMonster ));
@@ -64,7 +64,7 @@ function startRender(size){
     }
 
     var itemGeometry = new THREE.OctahedronGeometry(0.4);
-    var itemMaterial = new THREE.MeshPhongMaterial( {color: 0xFFD700});
+    var itemMaterial = new THREE.MeshPhongMaterial( {color: 0xFDFF0D});
 
     for(var c=0; c<items.length; c++){
         itemMesh.push(new THREE.Mesh( itemGeometry, itemMaterial ));

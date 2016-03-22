@@ -140,52 +140,60 @@ function Field(){
         var minX=0, minY=0;
         var minDist = SIZE+SIZE;
 
-        //Always following the right wall
-        //If we get to the exit everything is OK, if we get back to the beginning we can't get to the exit
-        while(!(tester.x == SIZE-1 && tester.y == SIZE-1)){
-            tester.turnRight();
-            while(tester.fieldInFront() == fieldType.wall)
-                tester.turnLeft();
-            tester.forward();
+        //Do this until we don't have to change anything anymore
+        do{
+            change = false;
 
-            var dx = tester.x - (SIZE-1);
-            var dy = tester.y - (SIZE-1);
-            var dist = Math.sqrt(dx*dx + dy*dy);
+            //Always following the right wall
+            //If we get to the exit everything is OK, if we get back to the beginning we can't get to the exit
+            while(!(tester.x == SIZE-1 && tester.y == SIZE-1)){
+                tester.turnRight();
+                while(tester.fieldInFront() == fieldType.wall)
+                    tester.turnLeft();
+                tester.forward();
 
-            if(dist < minDist){
-                minX = tester.x;
-                minY = tester.y;
-                minDist = dist;
-            }
+                var dx = tester.x - (SIZE-1);
+                var dy = tester.y - (SIZE-1);
+                var dist = Math.sqrt(dx*dx + dy*dy);
 
-            //We are at the beginning again
-            if(tester.x==0 && tester.y==0){
-                //Find closest distance to next way in X and Y direction
-                for(var xDist=1; this.get(xDist + minX, minY)==fieldType.wall && xDist < SIZE; xDist++){
-                    if(this.get(xDist + minX, minY-1)!=fieldType.wall || this.get(xDist + minX, minY+1)!=fieldType.wall)
-                        break;
-                }
-                for(var yDist=1; this.get(minX, yDist + minY)==fieldType.wall && yDist < SIZE; yDist++){
-                    if(this.get(minX-1, yDist + minY)!=fieldType.wall || this.get(minX+1, yDist + minY)!=fieldType.wall)
-                        break;
+                if(dist < minDist){
+                    minX = tester.x;
+                    minY = tester.y;
+                    minDist = dist;
                 }
 
-                console.log("Blocked", minX, minY);
-                console.log(xDist, yDist);
+                //We are at the beginning again
+                if(tester.x==0 && tester.y==0){
+                    change = true;
 
-                if(xDist < yDist){
-                    for(;xDist > 0; xDist--){
-                        this.field[minX + xDist][minY] = fieldType.empty;
+                    //Find closest distance to next way in X and Y direction
+                    for(var xDist=1; this.get(xDist + minX, minY)==fieldType.wall && xDist < SIZE; xDist++){
+                        if(this.get(xDist + minX, minY-1)!=fieldType.wall || this.get(xDist + minX, minY+1)!=fieldType.wall)
+                            break;
                     }
-                }else{
-                    for(;yDist > 0; yDist--){
-                        this.field[minY][minY + yDist] = fieldType.empty;
+                    for(var yDist=1; this.get(minX, yDist + minY)==fieldType.wall && yDist < SIZE; yDist++){
+                        if(this.get(minX-1, yDist + minY)!=fieldType.wall || this.get(minX+1, yDist + minY)!=fieldType.wall)
+                            break;
                     }
-                }
 
-                break;
+                    console.log("Blocked", minX, minY);
+                    console.log(xDist, yDist);
+
+                    if(xDist < yDist){
+                        for(;xDist > 0; xDist--){
+                            this.field[minX + xDist][minY] = fieldType.empty;
+                        }
+                    }else{
+                        for(;yDist > 0; yDist--){
+                            this.field[minY][minY + yDist] = fieldType.empty;
+                        }
+                    }
+
+                    break;
+                }
             }
-        }
+        }while(change);
+
 
 
         this.field[SIZE-1][SIZE-1] = fieldType.final;
@@ -196,7 +204,7 @@ function Field(){
         /*
          *  There are situations, just after generating a new level where this throws errors,
          *  because SIZE is already larger but the field is still the old size.
-         *  This probably the best solution...
+         *  This probably is the best solution...
          */
         try {
             if (x >= 0 && y >= 0 && x < SIZE && y < SIZE)

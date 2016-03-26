@@ -28,3 +28,30 @@ document.onkeypress = function(event){
         checkFinal();
     }
 };
+
+$(function() {
+    //Enable swiping...
+    $("body").swipe( {
+        //Generic swipe handler for all directions
+        swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
+            switch(direction){
+                case 'left':
+                    player.turnRight();
+                    playerRotation = 1;
+                    break;
+                case 'right':
+                    player.turnLeft();
+                    playerRotation = -1;
+                    break;
+                case 'up':
+                    player.backward();
+                    break;
+                case 'down':
+                    player.forward();
+                    break;
+            }
+        },
+        //Default is 75px, set to 0 for demo so any distance triggers swipe
+        threshold:75
+    });
+});

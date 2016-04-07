@@ -1,4 +1,4 @@
-const SIZE_BEGIN = 25;
+const SIZE_BEGIN = 30;
 var SIZE = SIZE_BEGIN;
 var dungeon = new Field();
 var player = new Creature(0, 0, 100);
@@ -83,6 +83,8 @@ function checkFight(){
 
             $("#tableFightCompare").html("<tr><th>You</th><th>Monster</th></tr>tr><td>"+player.health+"</td><td>"+monsters[c].health+"</td></tr>");
             monsterFighting = c;
+
+            running = false;
         }
 
     }

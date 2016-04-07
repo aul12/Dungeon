@@ -105,8 +105,7 @@ function startRender(size){
         ctx.lineTo(Math.cos(alpha)*60 + 64, Math.sin(alpha)*60 + 64);
         ctx.stroke();
 
-        if(running)
-            requestAnimationFrame( render );
+        requestAnimationFrame( render );
 
         camera.position.set(player.x - SIZE/2 +0.5, player.y - SIZE/2 +0.5,0.5);
 
@@ -132,7 +131,6 @@ function startRender(size){
 
         for(var c=0; c<monsters.length; c++)
             monsterCylinders[c].position.set(monsters[c].x - SIZE/2 +0.5, monsters[c].y - SIZE/2 +0.5, 0.3);
-
 
 
         renderer.render(scene, camera);

@@ -1,8 +1,8 @@
 var playerRotation = 0;
 
-document.onkeypress = function(event){
-    if(running){
-        switch(event.code){
+document.onkeydown = function (event) {
+    if (running) {
+        switch (event.code) {
             case "KeyW":
                 player.forward();
                 break;
@@ -17,25 +17,34 @@ document.onkeypress = function(event){
                 player.turnRight();
                 playerRotation = 1;
                 break;
-            case "KeyI":
+            case "KeyE":
                 inventory.show("#modalInventoryBody");
 
                 $('#modalInventar').modal('toggle');
+                break;
         }
-
         checkFight();
         checkItem();
         checkFinal();
     }
+    switch (event.code) {
+        case "Space":
+            if ($('#startButton').is(':visible')) {
+                $('#startButton').click();
+            }
+            if ($('#btnFight').is(':visible')) {
+                $('#btnFight').click();
+            }
+    }
 };
 
-$(function() {
-    if(running){
+$(function () {
+    if (running) {
         //Enable swiping...
-        $("body").swipe( {
+        $("body").swipe({
             //Generic swipe handler for all directions
-            swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
-                switch(direction){
+            swipe: function (event, direction, distance, duration, fingerCount, fingerData) {
+                switch (direction) {
                     case 'left':
                         player.turnRight();
                         playerRotation = 1;
@@ -53,7 +62,7 @@ $(function() {
                 }
             },
             //Default is 75px, set to 0 for demo so any distance triggers swipe
-            threshold:75
+            threshold: 75
         });
     }
 });
